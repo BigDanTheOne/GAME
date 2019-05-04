@@ -13,42 +13,20 @@ cell_height = battlefield_height / N_y
 H = 500
 
 
+
+
 class person:
-    def __init__(self, p_name, p_subject):
+    def __init__(self, p_name, p_subject, p_sex='man', p_picture=None):
         self.name = p_name
         self.subject = p_subject
+        self.picture = p_picture
+        self.sex = p_sex
+
     def __eq__(self, other):
         if type(other) == person and self.subject == other.subject and self.name == other.name:
             return True
-        else: return False
-
-
-unitSpeed = 10
-student_stat = 10
-lecturer_knowlege_min = 9
-lecturer_knwlege_max = 10
-lecturer_easiness_min = 7
-lecturer_easiness_max = 10
-seminarist_knowlege_min = 7
-seminarist_knwlege_max = 10
-seminarist_easiness_min = 5
-seminarist_easiness_max = 10
-lecturer_friendliness_min = 0
-lecturer_friendliness_max = 5
-seminarist_friendliness_min = 0
-seminarist_friendliness_max = 7
-lecturer_alcohol_liking_min = 0
-lecturer_alcohol_liking_max = 8
-seminarist_alcohol_liking_min = 3
-seminarist_alcohol_liking_max = 10
-seminarists = dict()
-subjects = ['matan', 'OKTCH', 'matlog']
-seminarists['matan'] = (person('Ivanova', 'matan'), person('Kuzmenko', 'matan'), person('Starodubcev', 'matan'))
-seminarists['OKTCH'] = (person('Grigoriev', 'OKTCH'), person('Glibenchuk', 'OKTCH'), person('Iliinskiy', 'OKTCH'))
-seminarists['matlog'] = (person('Irhin', 'matlog'), person('Milovanov', 'matlog'), person('Ivachenko', 'matlog'))
-
-lecturers_name = [person('Musatov', 'mathlog'), person('Raygor', 'OKTCH'),
-                  person('Redkozubov', 'matan')]
+        else:
+            return False
 
 
 class Subjects(Enum):
@@ -61,3 +39,32 @@ class Manager(Enum):
     bot = 'bot'
     player = 'player'
 
+unitSpeed = 10
+dist = 6
+student_stat = 10
+max_stat = 10
+bbox_r = 40
+student_health = range(100, 200)
+seminarist_health = range(200, 300)
+lecturer_health = range(300, 400)
+lecturer_knowlege = 10
+lecturer_easiness = 10
+seminarist_knowlege = 7
+seminarist_easiness = 7
+lecturer_friendliness = 7
+seminarist_friendliness_min = 7
+lecturer_alcohol_liking = 7
+seminarist_alcohol_liking = 7
+seminarists = dict()
+subjects = ['matan', 'OKTCH', 'matlog']
+seminarists['matan'] = (
+    person('Ivanova', 'matan', 'woman', p_picture='Images/ivanova.png'),
+    person('Kuzmenko', 'matan', p_picture='Images/kuzmenko.png'),
+    person('Starodubcev', 'matan'))
+seminarists['OKTCH'] = (person('Grigoriev', 'OKTCH', p_picture='Images/grigoriev.png'), person('Glibenchuk', 'OKTCH'),
+                        person('Iliinskiy', 'OKTCH', p_picture='Images/ilinskiy.png'))
+seminarists['matlog'] = (person('Irhin', 'matlog'), person('Milovanov', 'matlog'), person('Ivachenko', 'matlog'))
+
+lecturers_name = [person('Musatov', 'mathlog', p_picture='Images/musatov.png'),
+                  person('Raygor', 'OKTCH', p_picture='Images/raygor.png'),
+                  person('Redkozubov', 'matan', p_picture='Images/redkozubov.png')]
