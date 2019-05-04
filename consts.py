@@ -52,13 +52,13 @@ lecturer_easiness = 10
 seminarist_knowlege = 7
 seminarist_easiness = 7
 lecturer_friendliness = 7
-seminarist_friendliness_min = 7
+seminarist_friendliness = 7
 lecturer_alcohol_liking = 7
 seminarist_alcohol_liking = 7
 seminarists = dict()
 subjects = ['matan', 'OKTCH', 'matlog']
 seminarists['matan'] = (
-    person('Ivanova', 'matan', 'woman', p_picture='Images/ivanova.png'),
+    person('Ivanova', 'matan', 'woman', p_picture='Images/ivanova.jpg'),
     person('Kuzmenko', 'matan', p_picture='Images/kuzmenko.png'),
     person('Starodubcev', 'matan'))
 seminarists['OKTCH'] = (person('Grigoriev', 'OKTCH', p_picture='Images/grigoriev.png'), person('Glibenchuk', 'OKTCH'),

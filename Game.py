@@ -6,6 +6,9 @@ from pygame import *
 from consts import *
 from images import *
 from renderer import *
+from examenator import *
+from students import *
+
 pygame.init()
 pygame.font.init()
 
@@ -20,13 +23,12 @@ class Game:
     def play(self):
         map = Map()
         while self.run:
-            pygame.time.delay(15)
+            pygame.time.delay(5)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.run = False
                     pygame.quit()
-
 
             self.renderer.render_background()
             self.renderer.render_map(map)
@@ -36,4 +38,3 @@ class Game:
 if __name__ == '__main__':
     game = Game()
     game.play()
-

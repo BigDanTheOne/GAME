@@ -1,13 +1,18 @@
 from strategy import *
+from menu_stats import *
+from consts import *
+import pygame
 
 
 class BBox:
-    def __init__(self, x, y, radius):
+    def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.r = radius
-    def intersect(self, point):
-        return ((self.x - point[0]) ** 2 + (self.y - point[1]) ** 2) ** (0.5) <= self.radius
+        self.r = bbox_r
+
+    def intersect(self, x, y):
+        return ((self.x - x) ** 2 + (self.y - y) ** 2) ** (0.5) <= self.r
+
 
 class Unit:
     # imgHeadad':  pygame.Surface
@@ -18,6 +23,8 @@ class Unit:
     # def __init__(self, imgHead, imgBody):
     #     self.imgHead = pygame.image.load(imgHead)
     #     self.imgBody = pygame.image.load(imgBody)
+    def __init__(self, point=[0, 0]):
+        self.bbox = BBox(point[0], point[1])
 
     def step(self, target, delta_t):
         new_bbox = copy.deepcopy(self.bbox)
@@ -36,3 +43,8 @@ class Unit:
 
     def death(self):
         pass
+
+    def draw_menu(self, screen):
+        x, y = pygame.mouse.get_pos()
+        if self.bbox.intersect(x, y) and pygame.mouse.get_pressed()[2]:
+            draw_menu(screen, self, [screen_widt - menu_x, 0], self.type)

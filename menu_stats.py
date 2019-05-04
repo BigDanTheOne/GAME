@@ -1,5 +1,4 @@
-from students import *
-from examenator import *
+
 from grafic_config import *
 # Импорт библиотеки pygame
 import pygame
@@ -18,7 +17,7 @@ blue = [0, 0, 255]
 pi = 3.141592653
 
 
-def draw_menu(unit, point, type):
+def draw_menu(screen, unit, point, type):
     if type == 'student':
         if unit.sex == 'man':
             color = red
@@ -45,24 +44,3 @@ def draw_menu(unit, point, type):
     screen.blit(fon, point)
 
 
-# Устанавливаем размеры окна
-size = [1000, 600]
-screen = pygame.display.set_mode(size)
-
-# Цикл работает пока пользователь не закроет окно
-done = False
-clock = pygame.time.Clock()
-
-f = lecturers_factory(2)
-prep = f.create_examenator()
-while done == False:
-    clock.tick(10)
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            done = True
-    screen.fill(red)
-    draw_menu(prep, [0, 0], prep.type)
-    pygame.display.flip()
-
-pygame.quit()

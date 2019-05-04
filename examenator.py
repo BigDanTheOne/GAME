@@ -5,6 +5,8 @@ from consts import *
 
 
 class examenator(Unit):
+    def __init__(self):
+        super().__init__()
     def __str__(self):
         return '{}, name = {}, subject = {}, knowlege = {}, easiness = {}, alcohol_liking = {}, friendliness = {}, sex = {}'.format(
             self.type, self.name, self.subject,
@@ -13,10 +15,13 @@ class examenator(Unit):
 
 class lecturer(examenator):
     type = 'lecturer'
-
+    def __init__(self):
+        super().__init__()
 
 class seminarist(examenator):
     type = 'seminarist'
+    def __init__(self):
+        super().__init__()
 
 
 class lecturers_factory:
