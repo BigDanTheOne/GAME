@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append(sys.path[-1])
+
 import examenator
 import consts
 import random
