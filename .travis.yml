@@ -10,7 +10,7 @@ install:
 
 
 script:
-    pytest tests
+    pytest examenators_test.py student_test.py
 
 
 
