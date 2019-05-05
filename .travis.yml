@@ -1,10 +1,14 @@
 language: python
-python:
-    - "3.6"
 install:
     pip install -r requirements.txt
-script:
-    pytest tests
-if: branch = Task1
+jobs:
+  - stage: first
+    name: "Testing dirst task"
+    python: "3.6"
+    script:
+        pytest tests
+stages: 
+  -name: first
+    if: branch = Task1
 notifications:
   email: vasiagoloparov@gmail.com
