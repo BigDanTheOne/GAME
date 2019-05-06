@@ -35,7 +35,7 @@ class Cell:
         #self.polygon[1] = (target_lower[0] + cell_width_lower, screen_height - target_lower[1])
         #self.polygon[0] = (target_lower[0], screen_height - target_lower[1])
 
-    def intersection(self, x : int, y : int):
+    def intersect(self, x : int, y : int):
         return self.polygon.encloses_point(Point(x, y))
 
     def give_coordinates(self):
@@ -72,7 +72,7 @@ class Map:
     def get_cell_by_x_y(self, x : int, y : int):
         for i in range(len(self.map_matrix)):
             for j in range(len(self.map_matrix[i])):
-                if self.map_matrix[i][j].intersection(x, y):
+                if self.map_matrix[i][j].intersect(x, y):
                     return j ,i
         return -1, -1
 
@@ -89,7 +89,7 @@ class Map:
                 if event.button == 1:  # Left mouse button
                     x, y = pygame.mouse.get_pos()
                     for unit in units:
-                        if unit.intersection(x, y):
+                        if unit.intersect(x, y):
                             return Comand.SelectUnit(unit)
                         cell_x, cell_y = self.get_cell_by_x_y(x, y)
                         if cell_x != -1 and cell_y != -1:

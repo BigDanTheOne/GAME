@@ -1,5 +1,5 @@
 from enum import Enum
-import consts
+from consts import *
 import pygame
 import random
 from pygame import *
@@ -10,6 +10,7 @@ import pygame.locals
 from renderer import *
 from students import *
 import random
+
 pygame.init()
 pygame.font.init()
 
@@ -32,12 +33,13 @@ class Game:
                 return False
         return True
 
-    def preparing_units(self,  map: Map):
-        s = [Student(), Student(), Student()]
+    def preparing_units(self, map: Map):
+        x = giveStudentFacroty('Bot', random.choice(subjects), 5)
+        s = [x.createUnit(), x.createUnit(), x.createUnit()]
         tmp = [[False for j in range(N_x)] for i in range(N_y)]
         for i in s:
             while True:
-                cell_x, cell_y = random.randint(0, N_x - 1), random.randint(0, N_y -  1)
+                cell_x, cell_y = random.randint(0, N_x - 1), random.randint(0, N_y - 1)
                 if not tmp[cell_x][cell_y]:
                     tmp[cell_x][cell_y] = True
                     i.bbox.x, i.bbox.y = map.get_x_y_by_cell(cell_x, cell_y)
@@ -55,19 +57,20 @@ class Game:
         while self.run:
             for student in students:
                 events = pygame.event.get()
+                student.draw_menu(self.screen)
                 for event in events:
                     self.renderer.render_highlighted_cells(map)
                     if event.type == pygame.QUIT:
                         self.run = False
                 action = map.recognize_action(students, events)
                 if type(action) == Comand.Exit:
-                    self.run= False
+                    self.run = False
                     continue
                 elif type(action) == Comand.GoTo:
                     student.go_to((action.x, action.y))
                     self.renderer.render_going_unit(student, (action.x, action.y), students)
-                    continue
                     pygame.display.update()
+                    continue
 
             pygame.display.update()
 
@@ -75,4 +78,3 @@ class Game:
 if __name__ == '__main__':
     game = Game()
     game.play()
-
