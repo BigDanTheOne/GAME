@@ -1,4 +1,4 @@
-from grafic_config import *
+from images import *
 import pygame
 
 black = [0, 0, 0]
@@ -7,21 +7,19 @@ red = [255, 0, 0]
 green = [0, 255, 0]
 blue = [0, 0, 255]
 
-pi = 3.141592653
-
 
 def draw_menu(screen, unit, point, type):
     if type == 'student':
         if unit.sex == 'man':
             color = red
-            fon = pygame.image.load(student_man_foto)
+            fon = fon1['student']['man']
         else:
             color = blue
-            fon = pygame.image.load(student_girl_foto)
+            fon = fon1['student']['woman']
         fon = pygame.transform.scale(fon, (menu_x, menu_y))
     else:
         color = green
-        fon = pygame.image.load(teacher_foto)
+        fon = fon1[type]
         fon = pygame.transform.scale(fon, (menu_x, menu_y))
         if unit.face != None:
             face = pygame.image.load(unit.face)

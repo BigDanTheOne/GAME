@@ -1,10 +1,13 @@
 from strategy import *
 from menu_stats import *
 from consts import *
+from images import *
 import pygame
 import images
 import copy
 import math
+import random
+
 
 class BBox:
     def __init__(self, x: float, y: float, radius: float):
@@ -25,12 +28,14 @@ class Unit:
     # def __init__(self, imgHead, imgBody):
     #     self.imgHead = pygame.image.load(imgHead)
     #     self.imgBody = pygame.image.load(imgBody)
-    def __init__(self, imgHead, imgBody):
-        self.bbox: BBox = BBox(100, 100, 10)
+    def __init__(self):
+        self.health = random.choice(health[self.type])
+        self.stats['health'] = self.health
+        self.bbox = BBox(100, 100, bbox_r)
         self.speed: int = unitSpeed
-        self.imgHead:  pygame.Surface = imgHead
-        self.imgBody:  pygame.Surface = imgBody
-        self.imgBody0: pygame.Surface = images.student_body
+        self.imgHead:  pygame.Surface = head[self.type]
+        self.imgBody:  pygame.Surface = body[self.type]
+        self.imgBody0: pygame.Surface = body[self.type]
         self.w_0: int = self.imgBody.get_size()[0]
         self.h_0: int = self.imgBody.get_size()[1]
         self.target: BBox = BBox(-1, -1, 0)
@@ -46,7 +51,6 @@ class Unit:
 
     def step(self, delta_t):
         if self.moving:
-
             new_bbox = copy.deepcopy(self.bbox)
             print(self.bbox.x, self.bbox.y)
             new_bbox.x += self.speed * math.sin(
@@ -59,7 +63,7 @@ class Unit:
                 new_bbox = copy.deepcopy(self.target)
                 self.target.x = self.target.y = -1
 
-            self.bbox = new_bbox
+            self.bbox = BBox(new_bbox.x, new_bbox.y, bbox_r)
 
             # Jumping animation
             # self.spriteoffset = 2 * ((self.time * 20) % 5)

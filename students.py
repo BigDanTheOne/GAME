@@ -60,17 +60,11 @@ class BBox:
         return (x - self.x) ** 2 + (y - self.y) ** 2 <= self.r ** 2
 
 
-
-
-
 class Student(Unit):
     def __init__(self):
         self.type = 'student'
-        self.health = random.choice(student_health)
-        imgBody = images.student_body
-        imgHead = images.student_head
-        super().__init__(imgHead, imgBody)
         self.stats = dict()
+        super().__init__()
         # print('I am a Student')
 
     def answer(self, bilet):
@@ -103,9 +97,9 @@ class Player(Student):
 
 
 class Bot(Student):
-    def __init__(self, faculty, difficulty):
-        super().__init__()
+    def __init__(self, difficulty):
         # print('I am a Bot')
+        super().__init__()
         self.subject = random.choice(subjects)
         self.luck = int(random.normalvariate(student_stat / difficulty, 2) % 10)
         self.intelect = int(random.normalvariate(student_stat / difficulty, 2) % 10)
@@ -130,7 +124,7 @@ class BotFactory:
         self.difficulty = difficulty
 
     def createUnit(self):
-        return Bot(self.subject, self.difficulty)
+        return Bot(self.difficulty)
 
 
 class PlayerFactory:

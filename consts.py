@@ -41,14 +41,13 @@ class Manager(Enum):
 
 unitSpeed = 150
 student_stat = 10
-
-unitSpeed = 10
+max_stat = 10
 dist = 6
-student_stat = 10
-bbox_r = 40
-student_health = range(100, 200)
-seminarist_health = range(200, 300)
-lecturer_health = range(300, 400)
+bbox_r = 20
+health = dict()
+health['student'] = range(100, 200)
+health['seminarist'] = range(200, 300)
+health['lecturer'] = range(300, 400)
 lecturer_knowlege = 10
 lecturer_easiness = 10
 seminarist_knowlege = 7
