@@ -66,37 +66,37 @@ class Game:
             return True
         return False
 
-    def action(self, unit1, unit2):
+    def action(self, unit1, unit2, type):
         cell1_x, cell1_y = self.map.get_cell_by_x_y(unit1.bbox.x, unit1.bbox.y)
         cell2_x, cell2_y = self.map.get_cell_by_x_y(unit2.bbox.x, unit2.bbox.y)
-        if abs(cell1_x - cell2_x) < 2 and abs(cell1_y - cell2_y) < 2 :
-            if unit1.type == unit2.type:
+        if abs(cell1_x - cell2_x) < 2 and abs(cell1_y - cell2_y) < 2 and not (
+                cell1_x == cell2_x and cell1_y == cell2_y):
+            if isinstance(unit1, Student) and isinstance(unit2, Student):
                 hill1(unit1, unit2)
-            elif unit1.type != 'student' and unit2.type != 'student':
-                hill1(unit1, unit2)
+            elif isinstance(unit1, examenator) and isinstance(unit2, examenator):
+                hill1(unit2, unit1)
             else:
-                hit = hit1(unit1, unit2, unit1.type)
-                unit2.health -= hit
-                unit2.stats['health'] -= hit
-                if unit2.health <= 0:
-                    for i in range(len(self.units)):
-                        if self.units[i] == unit2:
-                            x , y = self.map.get_cell_by_x_y(unit2.bbox.x, unit2.bbox.y)
-                            self.cells[x][y] = False
-                            del(self.units[i])
-                            self.renderer.render_all_units(self.units)
-                            break
+                hit1(unit1, unit2, type)
+                for minion in [unit1, unit2]:
+                    if minion.health <= 0:
+                        for i in range(len(self.units)):
+                            if self.units[i] == minion:
+                                x, y = self.map.get_cell_by_x_y(minion.bbox.x, minion.bbox.y)
+                                self.cells[x][y] = False
+                                del (self.units[i])
+                                self.renderer.render_all_units(self.units)
+                                break
             return True
         return False
 
-    def students_turn(self):
-        for student in self.units:
-            if student.type != 'student' or not self.run:
+    def turn(self, units_class):
+        for minion in self.units:
+            if not isinstance(minion, units_class) or not self.run:
                 continue
-            this_student = True
-            my_cell_x, my_cell_y = self.map.get_cell_by_x_y(student.bbox.x, student.bbox.y)
-            while this_student:
-                self.renderer.render_highlighted_cells(self.map, my_cell_x, my_cell_y, self.cells, dist, student)
+            this_unit = True
+            my_cell_x, my_cell_y = self.map.get_cell_by_x_y(minion.bbox.x, minion.bbox.y)
+            while this_unit:
+                self.renderer.render_highlighted_cells(self.map, my_cell_x, my_cell_y, self.cells, dist, minion)
 
                 events = pygame.event.get()
                 for event in events:
@@ -104,25 +104,30 @@ class Game:
                     pygame.display.update()
                     if event.type == pygame.QUIT:
                         self.run = False
-                        this_student = False
+                        this_unit = False
                         continue
-                action = self.map.recognize_action([student], events)
+                action = self.map.recognize_action([minion], events)
                 if type(action) == Comand.Exit:
                     self.run = False
-                    this_student = False
+                    this_unit = False
                     continue
                 elif type(action) == Comand.GoTo:
-                    if self.check_go(student, my_cell_x, my_cell_y, action, student):
+                    if self.check_go(minion, my_cell_x, my_cell_y, action, minion):
                         self.renderer.render_all_units(self.units)
                     else:
                         for unit in self.units:
                             if unit.bbox.x == action.x and unit.bbox.y == action.y:
-                                if self.action(student, unit):
-                                    this_student = False
-                                    break
+                                if units_class == Student:
+                                    if self.action(minion, unit, minion.type):
+                                        this_unit = False
+                                        break
+                                else:
+                                    if self.action(unit, minion, minion.type):
+                                        this_unit = False
+                                        break
                     pygame.display.update()
                 elif type(action) == bool:
-                    this_student = False
+                    this_unit = False
                     continue
 
                 pygame.display.update()
@@ -136,7 +141,8 @@ class Game:
         self.renderer.update_screen(self.screen)
         while self.run:
             for unit in self.units:
-                self.students_turn()
+                self.turn(examenator)
+                self.turn(Student)
                 # events = pygame.event.get()
                 # unit.draw_menu(self.screen)
                 # for event in events:

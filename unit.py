@@ -85,8 +85,6 @@ class Unit:
     def move(self, target, delta_t):
         pass
 
-    def death(self):
-        pass
 
     def draw_menu(self, screen):
         x, y = pygame.mouse.get_pos()
