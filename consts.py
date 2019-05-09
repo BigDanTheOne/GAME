@@ -9,7 +9,7 @@ screen_widt = pygame.display.Info().current_w
 battlefield_width = screen_widt // 1.9
 battlefield_height = screen_height // 3.5
 battlefield_zero_point = (350, screen_height - 100)
-N_x, N_y = 5, 5
+N_x, N_y = 8, 8
 cell_height = battlefield_height / N_y
 H = 600
 

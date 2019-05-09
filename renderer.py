@@ -22,6 +22,7 @@ class Renderer:
         self.action_scene.fill((0, 0, 0, 0))
         for unit in units:
             self.render_static_unit(unit)
+            unit.draw_menu(self.action_scene)
 
     def render_going_unit(self, u: Unit, target, units):
         time = pygame.time.Clock()
@@ -48,8 +49,9 @@ class Renderer:
             for x in range(len(map.map_matrix[y])):
                 pygame.draw.polygon(self.static_scene, pygame.Color(100, 100, 100) ,map.map_matrix[y][x].give_coordinates(), 1)
 
-    def render_highlighted_cells(self, map: Map):
+    def render_highlighted_cells(self, map: Map, my_cell_x, my_cell_y, cells, dist, student):
         self.battlefield.fill((0, 0, 0, 0))
+        map.can_go_render(self.battlefield, my_cell_x, my_cell_y, cells, dist, student)
 
         x, y = pygame.mouse.get_pos()
         cell_x, cell_y = map.get_cell_by_x_y(x, y)

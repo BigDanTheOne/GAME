@@ -41,6 +41,9 @@ class Unit:
         self.target: BBox = BBox(-1, -1, 0)
         self.moving: bool = False
 
+    def __eq__(self, other):
+        return abs(self.bbox.x - other.bbox.x) + abs(self.bbox.y - other.bbox.y) == 0
+
     def rescale(self):
         self.imgBody = pygame.transform.scale(self.imgBody0,
                                               (int(self.w_0 * (H - battlefield_zero_point[1] + self.bbox.y) // H),
@@ -89,3 +92,4 @@ class Unit:
         x, y = pygame.mouse.get_pos()
         if self.bbox.intersect(x, y) and pygame.mouse.get_pressed()[2]:
             draw_menu(screen, self, [screen_widt - menu_x, 0], self.type)
+            pygame.display.update()
