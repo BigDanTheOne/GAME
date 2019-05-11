@@ -7,6 +7,7 @@ from consts import *
 from geometry import *
 import Comand
 from students import *
+from examenator import *
 import pygame.locals
 
 pygame.init()
@@ -99,19 +100,30 @@ class Map:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 return True
 
-    def can_go_render(self, screen, my_cell_x, my_cell_y, cells, unit_dist, unit):
-        unit_x , unit_y = self.get_cell_by_x_y(unit.bbox.x, unit.bbox.y)
+    def can_go_render(self, screen, my_cell_x, my_cell_y, cells, unit_dist, unit, units):
+        unit_x, unit_y = self.get_cell_by_x_y(unit.bbox.x, unit.bbox.y)
         for x in self.map_matrix:
             for cell in x:
+                color = None
                 if abs(cell.cell_x - my_cell_x) + abs(cell.cell_y - my_cell_y) < unit_dist and not cells[cell.cell_x][
                     cell.cell_y]:
-                    vertexes = cell.give_coordinates()
-                    pygame.draw.polygon(screen, blue, cell.give_coordinates())
-                    for i in range(4):
-                        pygame.draw.line(screen, green, vertexes[i], vertexes[(i + 1) % 4])
+                    color = white
                 elif abs(cell.cell_x - unit_x) + abs(cell.cell_y - unit_y) == 0:
+                    color = blue
+                elif cells[cell.cell_x][cell.cell_y] and (abs(cell.cell_x - unit_x) < 2 and abs(
+                        cell.cell_y - unit_y) < 2 or isinstance(unit, lecturer)):
+                    color = red
+                    for ot_unit in units:
+                        ot_unit_x, ot_unit_y = self.get_cell_by_x_y(ot_unit.bbox.x, ot_unit.bbox.y)
+                        if ot_unit_x == cell.cell_x and ot_unit_y == cell.cell_y:
+                            if isinstance(unit, Student) == isinstance(ot_unit, Student) and abs(
+                                    cell.cell_x - unit_x) < 2 and abs(cell.cell_y - unit_y) < 2:
+                                color = green
+                            elif isinstance(ot_unit, examenator) and isinstance(unit, lecturer):
+                                color = None
+                if not color == None:
+                    pygame.draw.polygon(screen, color, cell.give_coordinates())
+                for i in range(4):
                     vertexes = cell.give_coordinates()
-                    pygame.draw.polygon(screen, red, cell.give_coordinates())
-                    for i in range(4):
-                        pygame.draw.line(screen, blue, vertexes[i], vertexes[(i + 1) % 4])
+                    pygame.draw.line(screen, black, vertexes[i], vertexes[(i + 1) % 4])
         pygame.display.update()

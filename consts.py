@@ -42,7 +42,8 @@ class Manager(Enum):
 unitSpeed = 150
 student_stat = 10
 max_stat = 10
-dist = 6
+dist = 4
+health_wide = 5
 bbox_r = 20
 health = dict()
 health['student'] = range(100, 200)

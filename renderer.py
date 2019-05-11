@@ -1,8 +1,10 @@
 from students import *
-import consts
+from consts import *
 import pygame
 from images import *
 from map import *
+
+
 class Renderer:
     def __init__(self, battlefield: pygame.Surface, action_scene: pygame.Surface, screen: pygame.Surface,
                  static_scene: pygame.Surface):
@@ -16,7 +18,15 @@ class Renderer:
         y = u.bbox.y
         u.rescale()
         image = u.imgBody
-        self.action_scene.blit(image, (x   - u.imgBody.get_size()[0] // 2, y   - u.imgBody.get_size()[1]))
+        x0 = x - u.imgBody.get_size()[0] // 2
+        y0 = y - u.imgBody.get_size()[1]
+        self.action_scene.blit(image, (x0, y0))
+        health = u.health / u.max_health
+        pygame.draw.rect(self.action_scene, green,
+                         (x0, y0 - 2 * health_wide, health * u.imgBody.get_size()[0], health_wide))
+        pygame.draw.rect(self.action_scene, red, (
+            x0 + health * u.imgBody.get_size()[0], y0 - 2 * health_wide, (1 - health) * u.imgBody.get_size()[0],
+            health_wide))
 
     def render_all_units(self, units):
         self.action_scene.fill((0, 0, 0, 0))
@@ -43,20 +53,21 @@ class Renderer:
     def render_background(self):
         self.static_scene.blit(background, (0, 0))
 
-
     def render_map(self, map: Map):
         for y in range(len(map.map_matrix)):
             for x in range(len(map.map_matrix[y])):
-                pygame.draw.polygon(self.static_scene, pygame.Color(100, 100, 100) ,map.map_matrix[y][x].give_coordinates(), 1)
+                pygame.draw.polygon(self.static_scene, pygame.Color(100, 100, 100),
+                                    map.map_matrix[y][x].give_coordinates(), 1)
 
-    def render_highlighted_cells(self, map: Map, my_cell_x, my_cell_y, cells, dist, student):
+    def render_highlighted_cells(self, map: Map, my_cell_x, my_cell_y, cells, dist, student, units):
         self.battlefield.fill((0, 0, 0, 0))
-        map.can_go_render(self.battlefield, my_cell_x, my_cell_y, cells, dist, student)
+        map.can_go_render(self.battlefield, my_cell_x, my_cell_y, cells, dist, student, units)
 
         x, y = pygame.mouse.get_pos()
         cell_x, cell_y = map.get_cell_by_x_y(x, y)
 
-        pygame.draw.polygon(self.battlefield, pygame.Color(255, 255, 255), map.map_matrix[cell_y][cell_x].give_coordinates(), 1)
+        pygame.draw.polygon(self.battlefield, pygame.Color(255, 255, 255),
+                            map.map_matrix[cell_y][cell_x].give_coordinates(), 1)
         self.update_screen(self.battlefield)
 
     def update_screen(self, updated):
@@ -65,6 +76,3 @@ class Renderer:
         self.screen.blit(self.action_scene, (0, 0))
         pygame.display.update()
         pygame.event.pump()  # возможно не нужно
-
-
-

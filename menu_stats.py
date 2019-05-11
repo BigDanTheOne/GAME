@@ -7,7 +7,7 @@ red = [255, 0, 0]
 green = [0, 255, 0]
 blue = [0, 0, 255]
 
-
+f2 = pygame.font.SysFont('serif', shrift_size)
 def draw_menu(screen, unit, point, type):
     if type == 'student':
         if unit.sex == 'man':
@@ -29,7 +29,6 @@ def draw_menu(screen, unit, point, type):
     point1 = [0, (menu_y - shrift_size * len(unit.stats)) / 2]
 
     for x in unit.stats:
-        f2 = pygame.font.SysFont('serif', shrift_size)
         fon.blit(f2.render(x + " : " + str(unit.stats[x]), 1, color), point1)
         point1[1] += shrift_size
     screen.blit(fon, point)

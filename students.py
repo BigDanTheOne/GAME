@@ -162,10 +162,3 @@ def giveStudentFacroty(manager, subject, difficulty):
         return BotFactory(subject, difficulty)
     else:
         raise TypeError
-
-# my_factory1 = giveStudentFacroty('Bot', 'DIHT', 2)
-# my_factory2 = giveStudentFacroty('Player', 'DIHT', 2)
-# my_bot = my_factory1.createUnit()
-# my_player = my_factory2.createUnit()
-# print(my_bot.__dict__)
-# print(my_player.__dict__)

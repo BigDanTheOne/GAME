@@ -30,6 +30,7 @@ class Unit:
     #     self.imgBody = pygame.image.load(imgBody)
     def __init__(self):
         self.health = random.choice(health[self.type])
+        self.max_health = self.health
         self.stats['health'] = self.health
         self.bbox = BBox(100, 100, bbox_r)
         self.speed: int = unitSpeed

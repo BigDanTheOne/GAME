@@ -36,6 +36,17 @@ class Game:
                 return False
         return True
 
+    def death_units(self):
+        for minion in self.units:
+            if minion.health <= 0:
+                for i in range(len(self.units)):
+                    if self.units[i] == minion:
+                        x, y = self.map.get_cell_by_x_y(minion.bbox.x, minion.bbox.y)
+                        self.cells[x][y] = False
+                        del (self.units[i])
+                        self.renderer.render_all_units(self.units)
+                        break
+
     def preparing_units(self, map: Map, students, lecturers, seminarists, difficulty):
         stud_f = giveStudentFacroty('Bot', random.choice(subjects), difficulty)
         lec_f = lecturers_factory(difficulty)
@@ -71,21 +82,15 @@ class Game:
         cell2_x, cell2_y = self.map.get_cell_by_x_y(unit2.bbox.x, unit2.bbox.y)
         if abs(cell1_x - cell2_x) < 2 and abs(cell1_y - cell2_y) < 2 and not (
                 cell1_x == cell2_x and cell1_y == cell2_y):
-            if isinstance(unit1, Student) and isinstance(unit2, Student):
-                hill1(unit1, unit2)
-            elif isinstance(unit1, examenator) and isinstance(unit2, examenator):
-                hill1(unit2, unit1)
+            if isinstance(unit1, Student) == isinstance(unit2, Student):
+                hill(unit1, unit2)
             else:
-                hit1(unit1, unit2, type)
-                for minion in [unit1, unit2]:
-                    if minion.health <= 0:
-                        for i in range(len(self.units)):
-                            if self.units[i] == minion:
-                                x, y = self.map.get_cell_by_x_y(minion.bbox.x, minion.bbox.y)
-                                self.cells[x][y] = False
-                                del (self.units[i])
-                                self.renderer.render_all_units(self.units)
-                                break
+                hit_adapt(unit1, unit2, type)
+                self.death_units()
+            return True
+        elif isinstance(unit1, lecturer) and isinstance(unit2, Student):
+            hit_adapt(unit1, unit2, type)
+            self.death_units()
             return True
         return False
 
@@ -96,8 +101,8 @@ class Game:
             this_unit = True
             my_cell_x, my_cell_y = self.map.get_cell_by_x_y(minion.bbox.x, minion.bbox.y)
             while this_unit:
-                self.renderer.render_highlighted_cells(self.map, my_cell_x, my_cell_y, self.cells, dist, minion)
-
+                self.renderer.render_highlighted_cells(self.map, my_cell_x, my_cell_y, self.cells, dist, minion,
+                                                       self.units)
                 events = pygame.event.get()
                 for event in events:
                     self.renderer.render_all_units(self.units)
@@ -117,14 +122,9 @@ class Game:
                     else:
                         for unit in self.units:
                             if unit.bbox.x == action.x and unit.bbox.y == action.y:
-                                if units_class == Student:
-                                    if self.action(minion, unit, minion.type):
-                                        this_unit = False
-                                        break
-                                else:
-                                    if self.action(unit, minion, minion.type):
-                                        this_unit = False
-                                        break
+                                if self.action(minion, unit, minion.type):
+                                    this_unit = False
+                                    break
                     pygame.display.update()
                 elif type(action) == bool:
                     this_unit = False
@@ -134,7 +134,7 @@ class Game:
 
     def play(self):
         pygame.display.set_caption("Phystech.Battle")
-        self.preparing_units(self.map, 3, 1, 1, 1)
+        self.preparing_units(self.map, 3, 2, 1, 1)
         self.renderer.render_background()
         self.renderer.render_map(self.map)
         self.renderer.render_all_units(self.units)
@@ -143,21 +143,6 @@ class Game:
             for unit in self.units:
                 self.turn(examenator)
                 self.turn(Student)
-                # events = pygame.event.get()
-                # unit.draw_menu(self.screen)
-                # for event in events:
-                #     self.renderer.render_highlighted_cells(self.map)
-                #     if event.type == pygame.QUIT:
-                #         self.run = False
-                # action = self.map.recognize_action(self.units, events)
-                # if type(action) == Comand.Exit:
-                #     self.run = False
-                #     continue
-                # elif type(action) == Comand.GoTo:
-                #     unit.go_to((action.x, action.y))
-                #     self.renderer.render_going_unit(unit, (action.x, action.y), self.units)
-                #     pygame.display.update()
-                #     continue
 
 
 if __name__ == '__main__':
