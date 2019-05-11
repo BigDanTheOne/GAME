@@ -6,8 +6,9 @@ class GoTo:
 
 
 class SelectUnit:
-    def __init__(self, unit):
-        self.unit = unit
+    def __init__(self, selected, selecter):
+        self.selected = selected
+        self.selecter = selecter
 
 
 class Exit:

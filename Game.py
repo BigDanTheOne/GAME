@@ -10,7 +10,8 @@ import pygame.locals
 from renderer import *
 from students import *
 from examenator import *
-from client import Client
+from abstractfactory import AbstractFactory
+from Client import Client
 import random
 
 pygame.init()
@@ -50,9 +51,10 @@ class Game:
                         break
 
     def preparing_units(self, map: Map, students, lecturers, seminarists, difficulty):
-        stud_f = giveStudentFacroty('Bot', random.choice(subjects), difficulty)
-        lec_f = lecturers_factory(difficulty)
-        sem_f = seminarists_factory(difficulty)
+        factory = AbstractFactory()
+        stud_f = factory.give_concret_factory('Bot', random.choice(subjects), difficulty)
+        lec_f = factory.give_concret_factory('lecturer', difficulty)
+        sem_f = factory.give_concret_factory('seminarist', difficulty)
         self.units = []
         self.units += ([stud_f.createUnit() for i in range(students)])
         self.units += ([lec_f.createUnit() for i in range(lecturers)])
@@ -64,7 +66,6 @@ class Game:
                     self.cells[cell_x][cell_y] = True
                     i.bbox.x, i.bbox.y = self.map.get_x_y_by_cell(cell_x, cell_y)
                     break
-
     def update_cells(self, from_x, from_y, to_x, to_y):
         self.cells[from_x][from_y] = False
         self.cells[to_x][to_y] = True
@@ -96,6 +97,14 @@ class Game:
             return True
         return False
 
+    def rerecognize_action(self, *args, side):
+        if side == 'my':
+            return self.map.recognize_action(*args)
+        else:
+            self.client.Update()
+            pygame.time.delay(10)
+            return self.client.get_action()
+
     def turn(self, units_class, side):
         for minion in self.units:
             if not isinstance(minion, units_class) or not self.run:
@@ -112,7 +121,7 @@ class Game:
                         self.run = False
                         this_unit = False
                         continue
-                action = self.recognize_action([minion], events, side)
+                action = self.rerecognize_action([minion], events, side = side)
                 self.client.send_action(action)
                 if type(action) == Comand.Exit:
                     self.run = False
@@ -134,13 +143,7 @@ class Game:
 
                 pygame.display.update()
 
-    def rerecognize_action(self, *args, side):
-        if side == 'my':
-            return self.map.recognize_action(*args)
-        else:
-            self.client.Update()
-            pygame.time.delay(10)
-            return self.client.get_action()
+
 
 
     def play(self):

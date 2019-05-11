@@ -61,10 +61,10 @@ class BBox:
 
 
 class Student(Unit):
-    def __init__(self):
+    def __init__(self, index):
         self.type = 'student'
         self.stats = dict()
-        super().__init__()
+        super().__init__(index)
         # print('I am a Student')
 
     def answer(self, bilet):
@@ -97,9 +97,9 @@ class Player(Student):
 
 
 class Bot(Student):
-    def __init__(self, difficulty):
+    def __init__(self, difficulty, index):
         # print('I am a Bot')
-        super().__init__()
+        super().__init__(index)
         self.subject = random.choice(subjects)
         self.luck = int(random.normalvariate(student_stat / difficulty, 2) % 10)
         self.intelect = int(random.normalvariate(student_stat / difficulty, 2) % 10)
@@ -119,12 +119,14 @@ class BotFactory:
     'there you can choose a Favourity subject and a difficulty of the game from 1 to 5'
     'the higher the complexity the lower the characteristics of the allies'
 
-    def __init__(self, subject, difficulty):
+    def __init__(self, subject, difficulty, index):
+        self.index = index
         self.subject = subject
         self.difficulty = difficulty
 
     def createUnit(self):
-        return Bot(self.difficulty)
+        self.index += 1
+        return Bot(self.difficulty, self.index)
 
 
 class PlayerFactory:

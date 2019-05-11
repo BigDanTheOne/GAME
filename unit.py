@@ -28,7 +28,8 @@ class Unit:
     # def __init__(self, imgHead, imgBody):
     #     self.imgHead = pygame.image.load(imgHead)
     #     self.imgBody = pygame.image.load(imgBody)
-    def __init__(self):
+    def __init__(self, index):
+        self.index = index
         self.health = random.choice(health[self.type])
         self.max_health = self.health
         self.stats['health'] = self.health

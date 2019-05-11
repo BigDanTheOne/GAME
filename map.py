@@ -96,7 +96,7 @@ class Map:
                         cell_x, cell_y = self.get_cell_by_x_y(x, y)
                         if cell_x != -1 and cell_y != -1:
                             return Comand.GoTo(self.map_matrix[cell_y][cell_x].give_center()[0],
-                                               self.map_matrix[cell_y][cell_x].give_center()[1], unit)
+                                               self.map_matrix[cell_y][cell_x].give_center()[1], unit.index)
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 return True
 

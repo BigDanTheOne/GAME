@@ -5,15 +5,15 @@ from consts import *
 
 
 class examenator(Unit):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, index):
+        super().__init__(index)
 
 
 class lecturer(examenator):
     type = 'lecturer'
-    def __init__(self, difficulty):
+    def __init__(self, difficulty, index):
         self.stats = dict()
-        super().__init__()
+        super().__init__(index)
         self.difficulty = difficulty
         self.knowlege = int(random.normalvariate(lecturer_knowlege / self.difficulty, 2) % max_stat)
         self.easiness = int(random.normalvariate(lecturer_easiness / self.difficulty, 2) % max_stat)
@@ -30,9 +30,9 @@ class lecturer(examenator):
 
 class seminarist(examenator):
     type = 'seminarist'
-    def __init__(self, difficulty, subject):
+    def __init__(self, difficulty, subject, index):
         self.stats = dict()
-        super().__init__()
+        super().__init__(index)
         self.difficulty = difficulty
         self.knowlege = int(random.normalvariate(seminarist_knowlege / self.difficulty, 2) % max_stat)
         self.easiness = int(random.normalvariate(seminarist_easiness / self.difficulty, 2) % max_stat)
@@ -50,20 +50,24 @@ class seminarist(examenator):
 
 
 class lecturers_factory:
-    def __init__(self, difficulty):
+    def __init__(self, difficulty, index):
         self.difficulty = difficulty
+        self.index = index
 
     def createUnit(self):
-        lec = lecturer(self.difficulty)
+        self.index += 1
+        lec = lecturer(self.difficulty, self.index)
         return lec
 
 
 class seminarists_factory:
-    def __init__(self, difficulty):
+    def __init__(self, difficulty, index):
         self.difficulty = difficulty
+        self.index = index
 
     def createUnit(self, subject=subjects[random.randint(0, subjects.__len__() - 1)]):
-        sem = seminarist(self.difficulty, subject)
+        self.index += 1
+        sem = seminarist(self.difficulty, subject, self.index)
         return sem
 
 
