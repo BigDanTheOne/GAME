@@ -10,6 +10,7 @@ import pygame.locals
 from renderer import *
 from students import *
 from examenator import *
+from client import Client
 import random
 
 pygame.init()
@@ -18,6 +19,7 @@ pygame.font.init()
 
 class Game:
     def __init__(self):
+        self.client = Client('192.168.0.102', 44444, 'first')
         self.screen = pygame.display.set_mode((screen_widt, screen_height))
         self.battlefield = pygame.Surface((screen_widt, screen_height), pygame.SRCALPHA)
         self.action_scene = pygame.Surface((screen_widt, screen_height), pygame.SRCALPHA)
@@ -94,15 +96,14 @@ class Game:
             return True
         return False
 
-    def turn(self, units_class):
+    def turn(self, units_class, side):
         for minion in self.units:
             if not isinstance(minion, units_class) or not self.run:
                 continue
             this_unit = True
             my_cell_x, my_cell_y = self.map.get_cell_by_x_y(minion.bbox.x, minion.bbox.y)
             while this_unit:
-                self.renderer.render_highlighted_cells(self.map, my_cell_x, my_cell_y, self.cells, dist, minion,
-                                                       self.units)
+                self.renderer.render_highlighted_cells(self.map, my_cell_x, my_cell_y, self.cells, dist, minion, self.units)
                 events = pygame.event.get()
                 for event in events:
                     self.renderer.render_all_units(self.units)
@@ -111,7 +112,8 @@ class Game:
                         self.run = False
                         this_unit = False
                         continue
-                action = self.map.recognize_action([minion], events)
+                action = self.recognize_action([minion], events, side)
+                self.client.send_action(action)
                 if type(action) == Comand.Exit:
                     self.run = False
                     this_unit = False
@@ -132,6 +134,15 @@ class Game:
 
                 pygame.display.update()
 
+    def rerecognize_action(self, *args, side):
+        if side == 'my':
+            return self.map.recognize_action(*args)
+        else:
+            self.client.Update()
+            pygame.time.delay(10)
+            return self.client.get_action()
+
+
     def play(self):
         pygame.display.set_caption("Phystech.Battle")
         self.preparing_units(self.map, 3, 2, 1, 1)
@@ -141,8 +152,8 @@ class Game:
         self.renderer.update_screen(self.screen)
         while self.run:
             for unit in self.units:
-                self.turn(examenator)
-                self.turn(Student)
+                self.turn(examenator, 'my')
+                self.turn(Student, 'apponent')
 
 
 if __name__ == '__main__':
