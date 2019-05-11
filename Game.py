@@ -124,6 +124,7 @@ class Game:
                             if unit.bbox.x == action.x and unit.bbox.y == action.y:
                                 if self.action(minion, unit, minion.type):
                                     this_unit = False
+                                    self.renderer.render_all_units(self.units)
                                     break
                     pygame.display.update()
                 elif type(action) == bool:
