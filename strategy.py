@@ -18,12 +18,12 @@ def hit1(st, ex, hiter):
     if hiter == 'student':
         hit = 5 * div_subject + max(1, st.intelect - ex.knowlege) * (st.luck + max_stat) // max_stat + max(0,
                                                                                                            st.oratory - ex.alcohol_liking) * ex.friendliness // max_stat
-        ex.health -= 10 * hit
+        ex.health -= 10 * hit + 10000
         ex.stats['health'] = ex.health
     else:
         hit = 2 * div_subject + max(0, ex.knowlege - st.intelect) * (max_stat - st.luck) // max_stat + max(0,
                                                                                                            ex.alcohol_liking - st.oratory) * ex.friendliness // max_stat
-        st.health -= 10 * hit
+        st.health -= 10 * hit + 10000
         st.stats['health'] = st.health
 
 
@@ -47,7 +47,7 @@ def hit2(st, ex, hiter):
 
 
 def hill1(unit1, unit2):
-    if unit1.type == unit2.type:
+    if unit1.type == 'student' and unit2.type == 'student':
         unit2.health = min(unit2.health + 3 * unit1.oratory + 2 * unit2.oratory, unit2.max_health)
     elif unit1.type != 'student' and unit2.type != 'student':
         unit2.health = min(unit2.health + unit1.friendliness + unit2.friendliness, unit2.max_health)

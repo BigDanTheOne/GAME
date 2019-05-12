@@ -30,6 +30,7 @@ class Renderer:
 
     def render_all_units(self, units):
         self.action_scene.fill((0, 0, 0, 0))
+        units.sort()
         for unit in units:
             self.render_static_unit(unit)
             unit.draw_menu(self.action_scene)

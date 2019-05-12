@@ -36,19 +36,34 @@ class Game:
                 return False
         return True
 
+    def all_deth(self):
+        f = True
+        for i in range(len(self.units) - 1):
+            f = (f and isinstance(self.units[i], type(self.units[i + 1])))
+        if f:
+            if isinstance(self.units[0], examenator):
+                print("Победа команды экзаменаторов")
+            else:
+                print("Победа команды студентов")
+            exit()
+
     def death_units(self):
         for minion in self.units:
-            if minion.health <= 0:
-                for i in range(len(self.units)):
-                    if self.units[i] == minion:
-                        x, y = self.map.get_cell_by_x_y(minion.bbox.x, minion.bbox.y)
-                        self.cells[x][y] = False
-                        del (self.units[i])
-                        self.renderer.render_all_units(self.units)
-                        break
+           if minion.health <= 0:
+               for i in range(len(self.units)):
+                   if self.units[i] == minion:
+                       x, y = self.map.get_cell_by_x_y(minion.bbox.x, minion.bbox.y)
+                       self.cells[x][y] = False
+                       del (self.units[i])
+                       self.renderer.render_all_units(self.units)
+                       self.all_deth()
+                       break
+
+
 
     def preparing_units(self, map: Map, students, lecturers, seminarists, difficulty):
         stud_f = giveStudentFacroty('Bot', random.choice(subjects), difficulty)
+        #player_f = giveStudentFacroty('Player', random.choice(subjects), difficulty)
         lec_f = lecturers_factory(difficulty)
         sem_f = seminarists_factory(difficulty)
         self.units = []
@@ -86,11 +101,9 @@ class Game:
                 hill(unit1, unit2)
             else:
                 hit_adapt(unit1, unit2, type)
-                self.death_units()
             return True
         elif isinstance(unit1, lecturer) and isinstance(unit2, Student):
             hit_adapt(unit1, unit2, type)
-            self.death_units()
             return True
         return False
 
@@ -127,15 +140,17 @@ class Game:
                                     self.renderer.render_all_units(self.units)
                                     break
                     pygame.display.update()
+                    self.death_units()
                 elif type(action) == bool:
                     this_unit = False
+                    self.death_units()
                     continue
 
                 pygame.display.update()
 
     def play(self):
         pygame.display.set_caption("Phystech.Battle")
-        self.preparing_units(self.map, 3, 2, 1, 1)
+        self.preparing_units(self.map, 1, 1, 1, 1)
         self.renderer.render_background()
         self.renderer.render_map(self.map)
         self.renderer.render_all_units(self.units)

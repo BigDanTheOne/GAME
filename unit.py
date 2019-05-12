@@ -45,6 +45,9 @@ class Unit:
     def __eq__(self, other):
         return abs(self.bbox.x - other.bbox.x) + abs(self.bbox.y - other.bbox.y) == 0
 
+    def __lt__(self, other):
+        return self.bbox.y < other.bbox.y
+
     def rescale(self):
         self.imgBody = pygame.transform.scale(self.imgBody0,
                                               (int(self.w_0 * (H - battlefield_zero_point[1] + self.bbox.y) // H),
