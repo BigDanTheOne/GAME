@@ -5,44 +5,27 @@ import images
 import random
 import pygame
 import math
+import copy
 
-
-class Bilet:
-    global subjects
-
-    def __init__(self, add_quastion):
-        if add_quastion == True:
-            self.topic = None
-            self.task1 = random.choice(subjects)
-        else:
-            self.topic = random.choice(subjects)
-            self.task1 = random.choice(subjects)
-            self.task2 = random.choice(subjects)
 
 
 class Menu:
-    def __init__(self, given_player, dificulty):
-        self.dificulty = dificulty
+    def __init__(self, given_player):
         self.player = given_player
         self.end = False
         # TODO: calling the griphical interface of Menu
 
-    def getParametr(self):
+    def getParametr(self, dificulty):
         'info we got froom the griphical interface'
         while True:
-            print('choose one of these:'
-                  'luck from 0 to {} '
-                  'frequency  from 0 to {} '
-                  'time_bot from 0 to {} '
-                  'alcohol from 0 to {} '
-                  'if the choice is done print exit 0'.format(int(10 / self.dificulty), int(10 / self.dificulty),
-                                                              int(10 / self.dificulty), int(10 / self.dificulty)))
+            print('choose one of these:\nluck from 0 to {}\nintelect  from 0 to {}\noratory from 0 to {}\nfriendliness from 0 to {}\nif the choice is done print exit 0'.format(int(10 / dificulty), int(10 / dificulty),
+                                                              int(10 / dificulty), int(10 / dificulty)))
             type, value = input().split()
             if type == 'exit':
                 self.end = True
                 break
-            if type not in ('luck', 'frequency', 'time_bot', 'alcohol') and int(value) not in range(
-                    int(10 / self.dificulty)):
+            if type not in ('luck', 'frequency', 'time_bot', 'alcohol', 'exit') and int(value) not in range(
+                    int(10 / dificulty)):
                 print('incorrect input')
             else:
                 break
@@ -66,33 +49,27 @@ class Student(Unit):
         super().__init__()
         # print('I am a Student')
 
-    def answer(self, bilet):
-        pass
-
-    def askAnswer(self, student, bilet):
-        pass
-
-    def giveAnswer(self, student, bilet):
-        pass
-
     def giveStats(self):
-        'There we have some formula, which computes stats, now its only simple sum'
-        ans = 0
-        # print(self.stats)
-        for i in self.stats:
-            if i != 'faculty':
-                ans += int(self.stats[i])
-        return ans
-
-    def select_unit(self, unit: Unit):
-        pass
+        'There should be some formula, which computes stats, now its only simple stats'
+        return self.stats
 
 
 class Player(Student):
     def __init__(self, *args):
-        # TODO: add default stats
         super().__init__()
-        # print('I am a Student')
+        self.imgBody = body['player']
+        self.subject = ""
+        self.luck = 0
+        self.intelect = 0
+        self.oratory =  0
+        self.sex = random.choice(('man', 'woman'))
+        self.friendliness = 0
+        self.stats['subject'] = ""
+        self.stats['luck'] = 0
+        self.stats['intelect'] = 0
+        self.stats['oratory'] = 0
+        self.stats['sex'] = self.sex
+        self.stats['friendliness'] = 0
 
 
 class Bot(Student):
@@ -109,9 +86,7 @@ class Bot(Student):
         self.stats['luck'] = self.luck
         self.stats['intelect'] = self.intelect
         self.stats['oratory'] = self.oratory
-        self.stats['sex'] = self.sex
         self.stats['friendliness'] = self.friendliness
-        # TODO: add skills
 
 
 class BotFactory:
@@ -132,23 +107,35 @@ class PlayerFactory:
             self.player = player
             self.menu = menu
 
-        def fillField(self):
-            type, value = self.menu.getParametr()
-            if type != 'exit':
-                # self.Player.type = value
-                self.player.stats[type] = value
-            print('now your total power is: ', self.player.giveStats())
+        def fillField(self, difficulty):
+            try:
+                type, value = self.menu.getParametr(difficulty)
+            except BaseException:
+                print('incorrect input')
+                return
+            if type not in ('luck', 'intelect', 'oratory', 'sex', 'friendliness', 'exit') or value not in range(int(10 // difficulty + 1)):
+                print('incorrect input')
+            else:
+                if type != 'exit':
+                    # self.Player.type = value
+                    self.player.stats[type] = value
+                print('now your stats are: ', self.player.giveStats())
 
     def __init__(self, subject, difficulty):
         self.my_player = Player()
-        self.my_menu = Menu(self.my_player, difficulty)
+        self.my_menu = Menu(self.my_player)
         self.my_builder = PlayerFactory.builder(self.my_player, self.my_menu)
         self.my_player.subject = subject
         self.my_player.stats['subject'] = subject
-        while self.my_menu.end != True:
-            self.my_builder.fillField()
+        while not self.my_menu.end:
+            self.my_builder.fillField(difficulty)
 
     def createUnit(self):
+        self.my_player.subject = self.my_player.stats['subject']
+        self.my_player.luck = self.my_player.stats['luck']
+        self.my_player.intelect = self.my_player.stats['intelect']
+        self.my_player.oratory = self.my_player.stats['oratory']
+        self.my_player.friendliness = self.my_player.stats['friendliness']
         return self.my_player
 
 

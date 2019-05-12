@@ -59,7 +59,6 @@ class Unit:
     def step(self, delta_t):
         if self.moving:
             new_bbox = copy.deepcopy(self.bbox)
-            print(self.bbox.x, self.bbox.y)
             new_bbox.x += self.speed * math.sin(
                 math.atan2(self.target.x - self.bbox.x, self.target.y - self.bbox.y)) * delta_t
             new_bbox.y += self.speed * math.cos(

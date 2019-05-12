@@ -18,15 +18,17 @@ pygame.font.init()
 
 class Game:
     def __init__(self):
-        self.screen = pygame.display.set_mode((screen_widt, screen_height))
         self.battlefield = pygame.Surface((screen_widt, screen_height), pygame.SRCALPHA)
         self.action_scene = pygame.Surface((screen_widt, screen_height), pygame.SRCALPHA)
         self.static_scene = pygame.Surface((screen_widt, screen_height), pygame.SRCALPHA)
         self.run = True
         self.map = Map()
         self.cells = [[False for j in range(N_x)] for i in range(N_y)]
+        self.preparing_units(self.map, 3, 1, 1, 1, 1)
+        self.screen = pygame.display.set_mode((screen_widt, screen_height), pygame.FULLSCREEN)
         self.battlefield.blit(background, (0, 0))
         self.renderer = Renderer(self.battlefield, self.action_scene, self.screen, self.static_scene)
+
 
     def process_events(self):
         for event in pygame.event.get():
@@ -39,7 +41,7 @@ class Game:
     def all_deth(self):
         f = True
         for i in range(len(self.units) - 1):
-            f = (f and isinstance(self.units[i], type(self.units[i + 1])))
+            f = (f and (isinstance(self.units[i], Student) == isinstance(self.units[i + 1], Student)))
         if f:
             if isinstance(self.units[0], examenator):
                 print("Победа команды экзаменаторов")
@@ -61,15 +63,16 @@ class Game:
 
 
 
-    def preparing_units(self, map: Map, students, lecturers, seminarists, difficulty):
+    def preparing_units(self, map: Map, students, lecturers, seminarists, players, difficulty):
         stud_f = giveStudentFacroty('Bot', random.choice(subjects), difficulty)
-        #player_f = giveStudentFacroty('Player', random.choice(subjects), difficulty)
+        player_f = giveStudentFacroty('Player', random.choice(subjects), difficulty)
         lec_f = lecturers_factory(difficulty)
         sem_f = seminarists_factory(difficulty)
         self.units = []
         self.units += ([stud_f.createUnit() for i in range(students)])
         self.units += ([lec_f.createUnit() for i in range(lecturers)])
         self.units += ([sem_f.createUnit() for i in range(seminarists)])
+        self.units += ([player_f.createUnit() for i in range(players)])
         for i in self.units:
             while True:
                 cell_x, cell_y = random.randint(0, N_x - 1), random.randint(0, N_y - 1)
@@ -121,15 +124,17 @@ class Game:
                 for event in events:
                     self.renderer.render_all_units(self.units)
                     pygame.display.update()
-                    if event.type == pygame.QUIT:
+                    if event.type == pygame.QUIT or \
+                    (event.type == pygame.locals.KEYDOWN and
+                     event.key == pygame.locals.K_ESCAPE):
                         self.run = False
                         this_unit = False
-                        continue
+                        break
                 action = self.map.recognize_action([minion], events)
                 if type(action) == Comand.Exit:
                     self.run = False
                     this_unit = False
-                    continue
+                    break
                 elif type(action) == Comand.GoTo:
                     if self.check_go(minion, my_cell_x, my_cell_y, action, minion):
                         self.renderer.render_all_units(self.units)
@@ -151,7 +156,6 @@ class Game:
 
     def play(self):
         pygame.display.set_caption("Phystech.Battle")
-        self.preparing_units(self.map, 1, 1, 1, 1)
         self.renderer.render_background()
         self.renderer.render_map(self.map)
         self.renderer.render_all_units(self.units)

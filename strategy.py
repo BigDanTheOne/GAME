@@ -18,12 +18,12 @@ def hit1(st, ex, hiter):
     if hiter == 'student':
         hit = 5 * div_subject + max(1, st.intelect - ex.knowlege) * (st.luck + max_stat) // max_stat + max(0,
                                                                                                            st.oratory - ex.alcohol_liking) * ex.friendliness // max_stat
-        ex.health -= 10 * hit + 10000
+        ex.health -= 10 * hit
         ex.stats['health'] = ex.health
     else:
         hit = 2 * div_subject + max(0, ex.knowlege - st.intelect) * (max_stat - st.luck) // max_stat + max(0,
                                                                                                            ex.alcohol_liking - st.oratory) * ex.friendliness // max_stat
-        st.health -= 10 * hit + 10000
+        st.health -= 10 * hit
         st.stats['health'] = st.health
 
 

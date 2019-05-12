@@ -67,7 +67,7 @@ class Renderer:
         x, y = pygame.mouse.get_pos()
         cell_x, cell_y = map.get_cell_by_x_y(x, y)
 
-        pygame.draw.polygon(self.battlefield, pygame.Color(255, 255, 255),
+        pygame.draw.polygon(self.battlefield, pygame.Color(255, 255, 0),
                             map.map_matrix[cell_y][cell_x].give_coordinates(), 1)
         self.update_screen(self.battlefield)
 

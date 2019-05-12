@@ -6,12 +6,13 @@ pygame.font.init()
 
 screen_height = pygame.display.Info().current_h
 screen_widt = pygame.display.Info().current_w
+print(pygame.display.Info().current_h, pygame.display.Info().current_w)
+H = int(screen_height * 0.75)
 battlefield_width = screen_widt // 1.9
 battlefield_height = screen_height // 3.5
-battlefield_zero_point = (350, screen_height - 100)
+battlefield_zero_point = (int(H * 0.58), screen_height - 100)
 N_x, N_y = 5, 5
 cell_height = battlefield_height / N_y
-H = 600
 
 
 class person:
@@ -38,17 +39,16 @@ class Manager(Enum):
     bot = 'bot'
     player = 'player'
 
-
-unitSpeed = 150
+unitSpeed = int(H * 0.25)
 student_stat = 10
 max_stat = 10
-dist = 4
+dist = 3
 health_wide = 5
 bbox_r = 20
 health = dict()
 health['student'] = range(100, 200)
 health['seminarist'] = range(200, 300)
-health['lecturer'] = range(300, 400)
+health['lecturer'] = range(400, 600)
 lecturer_knowlege = 10
 lecturer_easiness = 10
 seminarist_knowlege = 7
