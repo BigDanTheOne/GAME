@@ -5,7 +5,6 @@ import images
 import random
 import pygame
 import math
-import copy
 
 
 class Bilet:

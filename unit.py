@@ -95,3 +95,6 @@ class Unit:
         if self.bbox.intersect(x, y) and pygame.mouse.get_pressed()[2]:
             draw_menu(screen, self, [screen_widt - menu_x, 0], self.type)
             pygame.display.update()
+    def draw_stats(self, screen):
+        draw_menu(screen, self, [0, screen_height - menu_y], self.type)
+        pygame.display.update()

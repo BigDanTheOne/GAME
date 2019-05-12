@@ -114,6 +114,7 @@ class Game:
             this_unit = True
             my_cell_x, my_cell_y = self.map.get_cell_by_x_y(minion.bbox.x, minion.bbox.y)
             while this_unit:
+                minion.draw_stats(self.action_scene)
                 self.renderer.render_highlighted_cells(self.map, my_cell_x, my_cell_y, self.cells, dist, minion,
                                                        self.units)
                 events = pygame.event.get()

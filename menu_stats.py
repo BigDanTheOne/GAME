@@ -32,3 +32,4 @@ def draw_menu(screen, unit, point, type):
         fon.blit(f2.render(x + " : " + str(unit.stats[x]), 1, color), point1)
         point1[1] += shrift_size
     screen.blit(fon, point)
+
