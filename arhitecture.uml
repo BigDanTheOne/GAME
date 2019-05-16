@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Python</ID>
+  <OriginalElement>#/Users/iskandersagitov/Desktop/a/GAME/students.py</OriginalElement>
+  <nodes>
+    <node x="778.0" y="734.0">renderer.Renderer</node>
+    <node x="3448.0" y="613.0">unit.Unit</node>
+    <node x="3678.951923076923" y="1255.5">examenator.examenator</node>
+    <node x="4145.701923076923" y="1233.5">consts.Subjects</node>
+    <node x="3166.0" y="822.0">geometry.Polygon</node>
+    <node x="3231.951923076923" y="1222.0">students.Student</node>
+    <node x="4943.701923076923" y="844.0">examenator.lecturers_factory</node>
+    <node x="242.0" y="833.0">students.BotFactory</node>
+    <node x="3938.701923076923" y="723.0">enum.Enum</node>
+    <node x="5177.701923076923" y="844.0">examenator.seminarists_factory</node>
+    <node x="5723.701923076923" y="811.0">consts.person</node>
+    <node x="6372.701923076923" y="833.0">Comand.GoTo</node>
+    <node x="3310.201923076923" y="1446.0">students.Bot</node>
+    <node x="2620.0" y="789.0">map.Map</node>
+    <node x="510.0" y="810.5">students.PlayerFactory</node>
+    <node x="3608.576923076923" y="0.0">object</node>
+    <node x="1717.0" y="767.0">map.Cell</node>
+    <node x="3690.0" y="844.0">geometry.Point</node>
+    <node x="6587.701923076923" y="877.5">Comand.Exit</node>
+    <node x="3525.201923076923" y="1391.0">examenator.seminarist</node>
+    <node x="0.0" y="833.0">students.Menu</node>
+    <node x="6187.701923076923" y="855.0">Comand.SelectUnit</node>
+    <node x="3116.201923076923" y="1435.0">students.Player</node>
+    <node x="4352.701923076923" y="657.0">Game.Game</node>
+    <node x="3793.201923076923" y="1391.0">examenator.lecturer</node>
+    <node x="3992.701923076923" y="1244.5">consts.Manager</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="enum.Enum" target="object">
+      <point x="0.0" y="-169.5" />
+      <point x="4135.701923076923" y="583.0" />
+      <point x="3772.3122171945706" y="583.0" />
+      <point x="17.2352941176473" y="246.5" />
+    </edge>
+    <edge source="students.Bot" target="students.Student">
+      <point x="0.0" y="-92.5" />
+      <point x="3407.701923076923" y="1366.0" />
+      <point x="3342.201923076923" y="1366.0" />
+      <point x="36.75" y="59.5" />
+    </edge>
+    <edge source="examenator.lecturer" target="examenator.examenator">
+      <point x="0.0" y="-147.5" />
+      <point x="3890.701923076923" y="1366.0" />
+      <point x="3815.451923076923" y="1366.0" />
+      <point x="45.5" y="26.0" />
+    </edge>
+    <edge source="examenator.seminarists_factory" target="object">
+      <point x="0.0" y="-48.5" />
+      <point x="5440.701923076923" y="553.0" />
+      <point x="3824.018099547511" y="553.0" />
+      <point x="68.94117647058829" y="246.5" />
+    </edge>
+    <edge source="students.Menu" target="object">
+      <point x="0.0" y="-59.5" />
+      <point x="111.0" y="523.0" />
+      <point x="3617.1945701357463" y="523.0" />
+      <point x="-137.88235294117658" y="246.5" />
+    </edge>
+    <edge source="Comand.GoTo" target="object">
+      <point x="0.0" y="-59.5" />
+      <point x="6470.201923076923" y="523.0" />
+      <point x="3875.7239819004526" y="523.0" />
+      <point x="120.64705882352928" y="246.5" />
+    </edge>
+    <edge source="examenator.lecturers_factory" target="object">
+      <point x="0.0" y="-48.5" />
+      <point x="5050.701923076923" y="563.0" />
+      <point x="3806.7828054298643" y="563.0" />
+      <point x="51.70588235294099" y="246.5" />
+    </edge>
+    <edge source="examenator.examenator" target="unit.Unit">
+      <point x="0.0" y="-26.0" />
+      <point x="3769.951923076923" y="1197.0" />
+      <point x="3614.5" y="1197.0" />
+      <point x="55.5" y="279.5" />
+    </edge>
+    <edge source="Game.Game" target="object">
+      <point x="0.0" y="-235.5" />
+      <point x="4638.201923076923" y="573.0" />
+      <point x="3789.5475113122175" y="573.0" />
+      <point x="34.470588235294144" y="246.5" />
+    </edge>
+    <edge source="consts.Subjects" target="enum.Enum">
+      <point x="0.0" y="-48.0" />
+      <point x="4212.201923076923" y="1197.0" />
+      <point x="4234.201923076923" y="1197.0" />
+      <point x="98.5" y="169.5" />
+    </edge>
+    <edge source="Comand.SelectUnit" target="object">
+      <point x="0.0" y="-37.5" />
+      <point x="6270.201923076923" y="533.0" />
+      <point x="3858.4886877828058" y="533.0" />
+      <point x="103.41176470588243" y="246.5" />
+    </edge>
+    <edge source="examenator.seminarist" target="examenator.examenator">
+      <point x="0.0" y="-147.5" />
+      <point x="3649.201923076923" y="1366.0" />
+      <point x="3724.451923076923" y="1366.0" />
+      <point x="-45.5" y="26.0" />
+    </edge>
+    <edge source="students.BotFactory" target="object">
+      <point x="0.0" y="-59.5" />
+      <point x="366.0" y="533.0" />
+      <point x="3634.429864253394" y="533.0" />
+      <point x="-120.64705882352928" y="246.5" />
+    </edge>
+    <edge source="geometry.Point" target="object">
+      <point x="0.0" y="-48.5" />
+      <point x="3771.5" y="593.0" />
+      <point x="3755.076923076923" y="593.0" />
+      <point x="0.0" y="246.5" />
+    </edge>
+    <edge source="consts.Manager" target="enum.Enum">
+      <point x="0.0" y="-37.0" />
+      <point x="4059.201923076923" y="1197.0" />
+      <point x="4037.201923076923" y="1197.0" />
+      <point x="-98.5" y="169.5" />
+    </edge>
+    <edge source="renderer.Renderer" target="object">
+      <point x="0.0" y="-158.5" />
+      <point x="1237.5" y="553.0" />
+      <point x="3668.9004524886877" y="553.0" />
+      <point x="-86.17647058823513" y="246.5" />
+    </edge>
+    <edge source="students.Student" target="unit.Unit">
+      <point x="0.0" y="-59.5" />
+      <point x="3305.451923076923" y="1197.0" />
+      <point x="3503.5" y="1197.0" />
+      <point x="-55.5" y="279.5" />
+    </edge>
+    <edge source="students.Player" target="students.Student">
+      <point x="0.0" y="-103.5" />
+      <point x="3203.201923076923" y="1366.0" />
+      <point x="3268.701923076923" y="1366.0" />
+      <point x="-36.75" y="59.5" />
+    </edge>
+    <edge source="map.Cell" target="object">
+      <point x="0.0" y="-125.5" />
+      <point x="2158.5" y="563.0" />
+      <point x="3686.1357466063346" y="563.0" />
+      <point x="-68.94117647058829" y="246.5" />
+    </edge>
+    <edge source="Comand.Exit" target="object">
+      <point x="0.0" y="-15.0" />
+      <point x="6643.701923076923" y="513.0" />
+      <point x="3892.9592760180994" y="513.0" />
+      <point x="137.88235294117658" y="246.5" />
+    </edge>
+    <edge source="unit.Unit" target="object">
+      <point x="0.0" y="-279.5" />
+      <point x="3559.0" y="593.0" />
+      <point x="3737.841628959276" y="593.0" />
+      <point x="-17.2352941176473" y="246.5" />
+    </edge>
+    <edge source="students.PlayerFactory" target="object">
+      <point x="0.0" y="-82.0" />
+      <point x="634.0" y="543.0" />
+      <point x="3651.665158371041" y="543.0" />
+      <point x="-103.41176470588243" y="246.5" />
+    </edge>
+    <edge source="geometry.Polygon" target="object">
+      <point x="0.0" y="-70.5" />
+      <point x="3297.0" y="583.0" />
+      <point x="3720.606334841629" y="583.0" />
+      <point x="-34.470588235294144" y="246.5" />
+    </edge>
+    <edge source="map.Map" target="object">
+      <point x="-4.547473508864641E-13" y="-103.5" />
+      <point x="2882.9999999999995" y="573.0" />
+      <point x="3703.3710407239823" y="573.0" />
+      <point x="-51.70588235294099" y="246.5" />
+    </edge>
+    <edge source="consts.person" target="object">
+      <point x="0.0" y="-81.5" />
+      <point x="5945.701923076923" y="543.0" />
+      <point x="3841.253393665159" y="543.0" />
+      <point x="86.17647058823559" y="246.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.40651939001428355" x="2675.9006174866345" y="730.444017999651" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+  </Categories>
+</Diagram>
+
