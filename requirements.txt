@@ -4,7 +4,7 @@ more-itertools==7.0.0
 mpmath==1.1.0
 pep8==1.7.1
 pluggy==0.9.0
-py==1.8.0
+py==1.10.0
 pygame==1.9.4
 pygame-menu==1.96.1
 pyscroll==2.19.2
